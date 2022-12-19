@@ -44,7 +44,6 @@ class LoginController extends Controller
         }
 
         if(auth()->guard('user')->attempt(['email' => request('email'), 'password' => request('password')])){
-git init
             config(['auth.guards.api.provider' => 'user']);
             
             $user = User::select('users.*')->find(auth()->guard('user')->user()->id);
