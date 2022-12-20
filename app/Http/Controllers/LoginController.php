@@ -71,7 +71,7 @@ class LoginController extends Controller
 
             config(['auth.guards.api.provider' => 'admin']);
             
-            $admin = admin::select('clients.*')->find(auth()->guard('admin')->user()->id);
+            $admin = Admin::select('admins.*')->find(auth()->guard('admin')->user()->id);
             $success =  $admin;
             $success['token'] =  $admin->createToken('appToken',['admin'])->accessToken; 
 
@@ -80,4 +80,47 @@ class LoginController extends Controller
             return response()->json(['error' => ['Email and Password are Wrong.']], 200);
         }
     }
+
+
+    public function registerUser(Request $request){
+                $validator = Validator::make($request->all(), [
+                    'name' => 'required',
+                    'email' =>'required|email',
+                    'password' => 'required',
+                    'c_password' => 'required|same:password',
+                ]);
+ 
+                if($validator->fails()){
+                    return response()->json($validator->errors(), 400);     
+                }
+ 
+                $input = $request->all();
+                $input['password'] = bcrypt($input['password']);
+                $user = User::create($input);
+                $success['token'] =  $user->createToken('appToken',['user'])->accessToken; 
+                $success['name'] =  $user->name;
+ 
+                 return response()->json($success, 200);
+    }
+    public function registerAdmin(Request $request){
+                $validator = Validator::make($request->all(), [
+                    'name' => 'required',
+                    'email' =>'required|email',
+                    'password' => 'required',
+                    'c_password' => 'required|same:password',
+                ]);
+ 
+                if($validator->fails()){
+                    return response()->json($validator->errors(), 400);      
+                }
+ 
+                $input = $request->all();
+                $input['password'] = bcrypt($input['password']);
+                $admin = Admin::create($input);
+                $success['token'] =  $admin->createToken('appToken',['admin'])->accessToken; 
+                $success['name'] =  $admin->name;
+ 
+                return response()->json($success, 200);
+    }
+
 }

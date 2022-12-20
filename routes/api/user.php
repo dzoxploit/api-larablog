@@ -15,6 +15,7 @@ use App\Http\Controllers\LoginController;
 */
 
 Route::post('user/login',[LoginController::class, 'userLogin'])->name('userLogin');
+Route::post('user/register',[LoginController::class, 'registerUser'])->name('registerUser');
 Route::group( ['prefix' => 'user','middleware' => ['auth:user-api','scopes:user'] ],function(){
    // authenticated staff routes here 
     Route::get('dashboard',[LoginController::class, 'userDashboard']);
