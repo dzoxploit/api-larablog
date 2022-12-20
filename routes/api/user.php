@@ -19,4 +19,12 @@ Route::post('user/register',[LoginController::class, 'registerUser'])->name('reg
 Route::group( ['prefix' => 'user','middleware' => ['auth:user-api','scopes:user'] ],function(){
    // authenticated staff routes here 
     Route::get('dashboard',[LoginController::class, 'userDashboard']);
+
+    Route::get('post',[PostUserController::class, 'index']);
+    Route::get('post/show/{id}',[PostUserController::class, 'show']);
+    Route::get('post/edit/{id}',[PostUserController::class, 'edit']);
+    Route::post('post/create',[PostUserController::class, 'create']);
+    Route::post('post/update/{id}',[PostUserController::class, 'update']);
+    Route::post('post/delete/{id}',[PostUserController::class, 'delete']);
+
 });

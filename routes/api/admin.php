@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ManageUserController;
+use App\Http\Controllers\PostAdminController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -28,4 +29,13 @@ Route::group( ['prefix' => 'admin','middleware' => ['auth:admin-api','scopes:adm
     Route::post('user/create',[ManageUserController::class, 'create']);
     Route::post('user/update/{id}',[ManageUserController::class, 'update']);
     Route::post('user/delete/{id}',[ManageUserController::class, 'delete']);
+
+    Route::get('post',[PostAdminController::class, 'index']);
+    Route::get('post/show/{id}',[PostAdminController::class, 'show']);
+    Route::get('post/edit/{id}',[PostAdminController::class, 'edit']);
+    Route::post('post/create',[PostAdminController::class, 'create']);
+    Route::post('post/update/{id}',[PostAdminController::class, 'update']);
+    Route::post('post/delete/{id}',[PostAdminController::class, 'delete']);
+
+
 });
